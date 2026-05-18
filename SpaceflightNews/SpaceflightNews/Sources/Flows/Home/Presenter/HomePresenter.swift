@@ -59,7 +59,7 @@ private extension HomePresenter {
             model.isLoading = false
             
             SpaceflightLogger.shared.logSuccess(
-                String(format: "ARTICLE_SUCCESS".translate,resultArticles.results.count),
+                String(format: "ARTICLE_SUCCESS".translate, String(resultArticles.results.count)),
                 category: .endpoint)
         } catch {
             model.isLoading = false
