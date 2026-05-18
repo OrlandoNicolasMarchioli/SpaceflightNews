@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings (English)
+  NetworkingKit
+  
+  Localized texts for network errors and networking module messages.
+*/
+
+// MARK: - Network Errors
+
+"NETWORK_ERROR_INVALID_URL" = "The service URL is invalid.";
+"NETWORK_ERROR_HTTP_ERROR" = "Server error (code %d). Please try again later.";
+"NETWORK_ERROR_DECODING_ERROR" = "Could not process the response: %@";
+"NETWORK_ERROR_NO_CONNECTION" = "No internet connection. Check your network and try again.";
+"NETWORK_ERROR_UNKNOWN" = "An unexpected error occurred.";
+
+// MARK: - Decoding Error Details
+
+"DECODING_ERROR_TYPE_MISMATCH" = "Incompatible type '%@' at '%@': %@";
+"DECODING_ERROR_VALUE_NOT_FOUND" = "Missing value of type '%@' at '%@': %@";
+"DECODING_ERROR_KEY_NOT_FOUND" = "Missing key '%@' at '%@'";
+"DECODING_ERROR_DATA_CORRUPTED" = "Corrupted data at '%@': %@";

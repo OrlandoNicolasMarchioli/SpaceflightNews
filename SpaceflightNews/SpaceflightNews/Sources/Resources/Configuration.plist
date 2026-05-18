@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>APIConfiguration</key>
+	<dict>
+		<key>BaseURL</key>
+		<string>api.spaceflightnewsapi.net</string>
+		<key>APIVersion</key>
+		<string>v4</string>
+		<key>Scheme</key>
+		<string>https</string>
+	</dict>
+</dict>
+</plist>

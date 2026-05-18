@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings
+  SpaceflightNews
+
+  Created by Orlando Nicola Marchioli on 18/05/2026.
+  
+*/
+
+"HOME_NAV_BAR_TITLE" = "Spaceflight News";
+"HOME_HEADER_TITLE" = "Latest Articles";
+"HOME_SEARCH_PLACEHOLDER" = "Search articles...";
+"HOME_LOADING_MESSAGE" = "Loading articles...";
+"DETAIL_LOADING_MESSAGE" = "Loading article...";
+"FETCH_ERROR" = "Loading error";
+"DETAIL_SEE_COMPLETE_ARTICLE_BUTTON" = "Read full article";
+"GO_TO_HOME" = "Go to Home";
+"SOMETHING_WENT_WRONG" = "Something went wrong";
+"EMPTY_STATE_TITLE" = "No results found";
+"EMPTY_STATE_MESSAGE" = "Try adjusting your search to find what you're looking for";
+"DECODING_ERROR_TYPE_MISMATCH" = "Type mismatch: expected %@, at %@";
+"DECODING_ERROR_VALUE_NOT_FOUND" = "Value not found: %@, at %@";
+"DECODING_ERROR_KEY_NOT_FOUND" = "Key not found: %@, at %@";
+"DECODING_ERROR_DATA_CORRUPTED" = "Data corrupted: %@";
+"DECODING_ERROR_UNKNOWN" = "Unknown decoding error";
+"LOADING_ARTICLES_ERROR" = "Error loading more articles: %@";
+"DETAIL_SUCCESS"= "Successfully fetched article detail";
+"ARTICLE_SUCCESS"= "Successfully fetched %@ articles";
+"MORE_ARTICLE_SUCCESS"= "Loaded %@ more articles (offset: %@))";
+
