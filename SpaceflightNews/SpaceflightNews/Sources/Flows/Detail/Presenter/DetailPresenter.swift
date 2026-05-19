@@ -1,7 +1,6 @@
 // DetailPresenter.swift
 // SpaceNewsApp — Presentation/Detail
 //
-// Presenter del módulo de detalle de artículo.
 
 import Foundation
 import SwiftUI
@@ -17,7 +16,7 @@ final class DetailPresenter: ObservableObject {
 
     weak var router: SpaceflightRouter?
     private let articleID: String
-    private let service: SpaceflightService
+    private let service: SpaceflightServiceProtocol
 
     @Published var model: Model
 
@@ -25,7 +24,7 @@ final class DetailPresenter: ObservableObject {
     init(
         router: SpaceflightRouter,
         articleID: String,
-        service: SpaceflightService = SpaceflightService()
+        service: SpaceflightServiceProtocol = SpaceflightService()
     ) {
         self.router = router
         self.articleID = articleID
@@ -46,14 +45,19 @@ extension DetailPresenter {
     }
 }
 
-// MARK: - Private
-
 private extension DetailPresenter {
 
     func fetchDetail() async {
+        if let cachedArticle = ArticleCache.shared.getArticle(forID: articleID) {
+            model.updateArticle(cachedArticle)
+            model.isLoading = false
+            return
+        }
+        
         do {
             let article = try await service.fetchArticle(by: articleID)
             model.updateArticle(article)
+            ArticleCache.shared.setArticle(article)
             model.isLoading = false
             
             SpaceflightLogger.shared.logSuccess(

@@ -11,15 +11,17 @@ final class HomePresenter: ObservableObject {
         case detail(id: String)
         case loadMore
         case filter(text: String)
+        case showSheet
+        case setSortOrder(HomePresenter.SortOrder)
     }
     
     weak var router: SpaceflightRouter?
-    private let service: SpaceflightService
+    private let service: SpaceflightServiceProtocol
     @Published var model: Model
     
     
     init(router: SpaceflightRouter,
-         service: SpaceflightService = SpaceflightService()
+         service: SpaceflightServiceProtocol = SpaceflightService()
     ) {
         self.router = router
         self.service = service
@@ -42,6 +44,12 @@ extension HomePresenter {
             await loadMoreArticles()
         case .filter(let text):
             filterArticles(by: text)
+        case .showSheet:
+            model.showSortSheet = true
+        case .setSortOrder(let order):
+            model.sortOrder = order
+            applySortOrder()
+            model.showSortSheet = false
         }
     }
 }
@@ -49,17 +57,28 @@ extension HomePresenter {
 private extension HomePresenter {
     
     func fetchData() async {
+        if let cachedArticles = ArticleCache.shared.getArticleList() {
+            model.updateArticles(cachedArticles)
+            model.currentOffset = cachedArticles.count
+            model.hasMorePages = cachedArticles.count >= model.pageSize
+            applySortOrder()
+            model.isLoading = false
+            return
+        }
+        
         do {
             model.resetPagination()
             model.isLoading = true
             let resultArticles = try await service.fetchArticles(query: "", limit: model.pageSize, offset: 0)
             model.updateArticles(resultArticles.results)
+            ArticleCache.shared.setArticleList(resultArticles.results)
+            applySortOrder()
             model.currentOffset = model.pageSize
             model.hasMorePages = resultArticles.results.count == model.pageSize
             model.isLoading = false
             
             SpaceflightLogger.shared.logSuccess(
-                String(format: "ARTICLE_SUCCESS".translate,resultArticles.results.count),
+                String(format: "ARTICLE_SUCCESS".translate, String(resultArticles.results.count)),
                 category: .endpoint)
         } catch {
             model.isLoading = false
@@ -95,25 +114,24 @@ private extension HomePresenter {
                 offset: model.currentOffset
             )
             model.appendArticles(resultArticles.results)
+            ArticleCache.shared.appendArticles(resultArticles.results)
+            applySortOrder()
             model.isLoadingMore = false
             
             SpaceflightLogger.shared.logSuccess(
-                String(format:"MORE_ARTICLE_SUCCESS".translate, resultArticles.results.count,
-                       model.currentOffset),
+                String(format:"MORE_ARTICLE_SUCCESS".translate, String(resultArticles.results.count),
+                       String(model.currentOffset)),
                 category: .endpoint
             )
         } catch {
             model.isLoadingMore = false
             
-            // 🔴 Logger: Registrar error de paginación
             SpaceflightLogger.shared.logArticlesFetchError(
                 error,
                 query: "",
                 limit: model.pageSize,
                 offset: model.currentOffset
             )
-            
-            print(String(format:"LOADING_ARTICLES_ERROR".translate),error.localizedDescription)
         }
     }
     
@@ -126,6 +144,20 @@ private extension HomePresenter {
                 article.summary.localizedCaseInsensitiveContains(query) ||
                 article.newsSite.localizedCaseInsensitiveContains(query)
             }
+        }
+        applySortOrder()
+    }
+    
+    func applySortOrder() {
+        model.articles = sortedArticles(model.articles)
+    }
+    
+    func sortedArticles(_ articles: [SpaceflightService.DTO.Article]) -> [SpaceflightService.DTO.Article] {
+        switch model.sortOrder {
+        case .ascending:
+            return articles.sorted { $0.publishedAt < $1.publishedAt }
+        case .descending:
+            return articles.sorted { $0.publishedAt > $1.publishedAt }
         }
     }
 }

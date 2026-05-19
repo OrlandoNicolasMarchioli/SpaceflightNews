@@ -1,8 +1,7 @@
 // HomeView.swift
 // SpaceNewsApp — Presentation/Home/View
-//
-// Vista principal. Lista de artículos con búsqueda, paginación y estados de feedback.
-// Sigue Human Interface Guidelines: NavigationStack, searchable, List con secciones.
+// //  Created by Orlando Nicola Marchioli on 17/05/2026.
+
 
 import SwiftUI
 
@@ -22,6 +21,7 @@ struct HomeView: View {
                 LoadingView(message: presenter.model.loadingMessage)
             } else {
                 searchBar
+                articlesListHeader
                 articlesListView
             }
         }
@@ -35,6 +35,93 @@ struct HomeView: View {
 }
 
 extension HomeView {
+    
+    @ViewBuilder
+    private var searchBar: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(.secondary)
+            
+            TextField(presenter.model.searchPlaceholder, text: $searchText)
+                .textFieldStyle(.plain)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+                .onChange(of: searchText) {newValue in
+                    Task {
+                        await presenter.action(.filter(text: newValue))
+                    }
+                }
+            
+            if !searchText.isEmpty {
+                Button {
+                    searchText = ""
+                    Task {
+                        await presenter.action(.filter(text: ""))
+                    }
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+        .background(.regularMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+    }
+    
+    private var articlesListHeader: some View {
+        HStack(spacing: 16) {
+            Text(presenter.model.headerTitle)
+            Spacer()
+            Button(action: {
+                Task {
+                    await presenter.action(.showSheet)
+                }
+            })
+            {
+                HStack(spacing: 6) {
+                    Image(systemName: "arrow.up.arrow.down")
+                    Text("SORT_BUTTON_TITLE".translate)
+                        .font(.subheadline)
+                }
+                .foregroundStyle(.black)
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 16)
+        .sheet(isPresented: $presenter.model.showSortSheet) {
+            sortSheet
+        }
+    }
+    
+    @ViewBuilder
+    private var sortSheet: some View {
+        NavigationStack {
+            List {
+                Section {
+                    sortOption(.descending)
+                    sortOption(.ascending)
+                } header: {
+                    Text("SORT_SHEET_SECTION_HEADER".translate)
+                }
+            }
+            .navigationTitle("SORT_SHEET_TITLE".translate)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("SORT_SHEET_CLOSE_BUTTON".translate) {
+                        presenter.model.showSortSheet = false
+                    }
+                    .foregroundStyle(.black)
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
+    }
     
     @ViewBuilder
     private var articlesListView: some View {
@@ -82,44 +169,33 @@ extension HomeView {
             .listStyle(.plain)
             .navigationTitle(presenter.model.title)
             .padding(.horizontal, 16)
+            .padding(.vertical, 8)
         }
-    }
-    
-    @ViewBuilder
-    private var searchBar: some View {
-        HStack(spacing: 12) {
-            Image(systemName: "magnifyingglass")
-                .foregroundStyle(.secondary)
-            
-            TextField(presenter.model.searchPlaceholder, text: $searchText)
-                .textFieldStyle(.plain)
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
-                .onChange(of: searchText) {newValue in
-                    Task {
-                        await presenter.action(.filter(text: newValue))
-                    }
-                }
-            
-            if !searchText.isEmpty {
-                Button {
-                    searchText = ""
-                    Task {
-                        await presenter.action(.filter(text: ""))
-                    }
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.secondary)
-                }
-                .buttonStyle(.plain)
-            }
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
     }
 }
 
+extension HomeView {
+    
+    @ViewBuilder
+    private func sortOption(_ order: HomePresenter.SortOrder) -> some View {
+        Button {
+            Task {
+                await presenter.action(.setSortOrder(order))
+            }
+        } label: {
+            HStack {
+                Image(systemName: order.icon)
+                    .foregroundStyle(.black)
+                Text(order.title)
+                    .foregroundStyle(.black)
+                Spacer()
+                if presenter.model.sortOrder == order {
+                    Image(systemName: "checkmark")
+                        .foregroundStyle(.black)
+                        .fontWeight(.semibold)
+                }
+            }
+        }
+    }
+    
+}

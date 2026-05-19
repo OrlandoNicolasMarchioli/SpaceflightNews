@@ -1,10 +1,6 @@
 // FeedbackViews.swift
 // SpaceNewsApp — Presentation/Common/Views
 //
-// Vistas de feedback reutilizables en toda la app:
-//   - LoadingView: spinner + mensaje "Buscando noticias..."
-//   - ErrorStateView: error con botón de reintento
-//   - EmptyStateView: estado vacío con ícono y mensaje
 
 import SwiftUI
 

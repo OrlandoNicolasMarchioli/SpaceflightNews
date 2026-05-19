@@ -6,6 +6,30 @@
 //
 
 extension HomePresenter {
+    
+    enum SortOrder {
+        case ascending
+        case descending
+        
+        var title: String {
+            switch self {
+            case .ascending:
+                return "ASCENDANT_SORT_TITLE".translate
+            case .descending:
+                return "DESCENDANT_SORT_TITLE".translate
+            }
+        }
+        
+        var icon: String {
+            switch self {
+            case .ascending:
+                return "arrow.up"
+            case .descending:
+                return "arrow.down"
+            }
+        }
+    }
+    
     struct Model {
         
         var isLoading: Bool = true
@@ -31,6 +55,9 @@ extension HomePresenter {
         var currentOffset: Int = 0
         var hasMorePages: Bool = true
         let pageSize: Int = 10
+        
+        var sortOrder: SortOrder = .descending
+        var showSortSheet: Bool = false
         
         mutating func updateArticles(_ articles: [SpaceflightService.DTO.Article]) {
             self.allArticles = articles

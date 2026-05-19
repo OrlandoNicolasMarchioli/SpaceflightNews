@@ -1,5 +1,4 @@
 // HTTPClient.swift
-// NetworkingKit
 //
 
 import Foundation
