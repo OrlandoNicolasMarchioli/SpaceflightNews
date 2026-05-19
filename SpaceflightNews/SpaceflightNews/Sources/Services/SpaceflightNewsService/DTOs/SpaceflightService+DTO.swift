@@ -12,7 +12,7 @@ extension SpaceflightService {
 }
 
 extension SpaceflightService.DTO {
-    struct PaginatedResponse<T: Decodable>: Decodable {
+    struct PaginatedResponse<T: Decodable & Sendable>: Decodable, Sendable {
         let count: Int
         let next: String?
         let previous: String?
@@ -21,7 +21,7 @@ extension SpaceflightService.DTO {
 }
 
 extension SpaceflightService.DTO {
-    struct Article: Codable, Identifiable {
+    struct Article: Codable, Identifiable, Sendable {
         let id: Int
         let title: String
         let authors: [Author]
@@ -38,7 +38,7 @@ extension SpaceflightService.DTO {
 }
 
 extension SpaceflightService.DTO {
-    struct Blog: Codable {
+    struct Blog: Codable, Sendable {
         let id: Int
         let title: String
         let authors: [Author]
@@ -55,7 +55,7 @@ extension SpaceflightService.DTO {
 }
 
 extension SpaceflightService.DTO {
-    struct Report: Codable {
+    struct Report: Codable, Sendable {
         let id: Int
         let title: String
         let authors: [Author]
@@ -72,12 +72,12 @@ extension SpaceflightService.DTO {
 }
 
 extension SpaceflightService.DTO {
-    struct Author: Codable {
+    struct Author: Codable, Sendable {
         let name: String
         let socials: SpaceflightService.DTO.AuthorSocials?
     }
 
-    struct AuthorSocials: Codable {
+    struct AuthorSocials: Codable, Sendable {
         let x: String?
         let youtube: String?
         let instagram: String?
@@ -88,28 +88,28 @@ extension SpaceflightService.DTO {
 }
 
 extension SpaceflightService.DTO {
-    struct LaunchReference: Codable {
+    struct LaunchReference: Codable, Sendable {
         let launchId: String?
         let provider: String?
     }
 }
 
 extension SpaceflightService.DTO {
-    struct EventReference: Codable {
+    struct EventReference: Codable, Sendable {
         let eventId: Int?
         let provider: String?
     }
 }
 
 extension SpaceflightService.DTO {
-    struct NewsSite: Codable {
+    struct NewsSite: Codable, Sendable {
         let id: Int
         let name: String
     }
 }
 
 extension SpaceflightService.DTO {
-    struct InfoResponse: Codable {
+    struct InfoResponse: Codable, Sendable {
         let version: String
         let newsSites: Int
         let articles: Int

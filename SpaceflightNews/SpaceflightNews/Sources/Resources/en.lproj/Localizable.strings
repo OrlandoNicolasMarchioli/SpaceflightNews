@@ -26,4 +26,9 @@
 "DETAIL_SUCCESS"= "Successfully fetched article detail";
 "ARTICLE_SUCCESS"= "Successfully fetched %@ articles";
 "MORE_ARTICLE_SUCCESS"= "Loaded %@ more articles (offset: %@))";
-
+"ASCENDANT_SORT_TITLE" = "Date: Ascending";
+"DESCENDANT_SORT_TITLE" = "Date: Descending";
+"SORT_BUTTON_TITLE" = "Sort";
+"SORT_SHEET_TITLE" = "Sort articles";
+"SORT_SHEET_SECTION_HEADER" = "Sort by publication date";
+"SORT_SHEET_CLOSE_BUTTON" = "Close";
