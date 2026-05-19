@@ -5,7 +5,6 @@
 ![iOS](https://img.shields.io/badge/iOS-17.0+-blue.svg)
 ![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-5.0-green.svg)
-![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)
 
 ## 📋 Table of Contents
 
@@ -28,7 +27,7 @@
 - ✅ **Presenter Pattern** for separation of concerns
 - ✅ **Router Pattern** for decoupled navigation
 - ✅ **Type-Safe Networking** with async/await
-- ✅ **Full Localization** (EN/ES)
+- ✅ **Full Localization** (EN)
 - ✅ **Centralized Logging** with OSLog
 - ✅ **Real-Time Search**
 - ✅ **Infinite Pagination**
@@ -538,46 +537,11 @@ let package = Package(
 )
 ```
 
-## 🎯 Roadmap
-
-- [ ] Keychain integration for tokens
-- [ ] Offline image caching
-- [ ] Favorites with SwiftData
-- [ ] iOS Widget
-- [ ] App Clips
-- [ ] watchOS companion app
-- [ ] macOS app with Catalyst
-- [ ] UI tests with Swift Testing
-
-## 🤝 Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the project
-2. Create a branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
 ## 👨‍💻 Author
 
 **Orlando Nicola Marchioli**
 
 - GitHub: [@orlandonicola](https://github.com/orlandonicola)
-- Email: orlando@example.com
+- Email: nico.marchioli@gmail.com
 
-## 🙏 Acknowledgments
 
-- [Spaceflight News API](https://www.spaceflightnewsapi.net/) for providing the free API
-- Swift and SwiftUI community
-- Apple for the development tools
-
----
-
-⭐️ If you found this project useful, consider giving it a star!
-
-**Made with ❤️ and Swift**
